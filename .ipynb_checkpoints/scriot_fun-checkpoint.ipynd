@@ -2,18 +2,10 @@
  "cells": [
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 1,
    "id": "16edf28f-73f9-4687-a6a0-1d5f2077cdfd",
    "metadata": {},
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "{'E', 'C', 'F', 'Am', 'Dm', 'G'}\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "import re\n",
     "\n",
@@ -45,7 +37,39 @@
     "#chords = extract_chords('data/song.txt')\n",
     "#print(chords)\n",
     "\n",
-    "\n"
+    "\n",
+    "def rename_files(dir, pattern, new_pattern=None, sample_names=None, to_replace=None):\n",
+    "    \"\"\"Copy and rename files\"\"\"\n",
+    "    if sample_names is None: \n",
+    "        sample_names = {}\n",
+    "\n",
+    "    for filename in os.listdir(dir): \n",
+    "        filepath = os.path.join(dir, filename)\n",
+    "\n",
+    "        if not os.path.isfile(filepath):\n",
+    "            continue\n",
+    "\n",
+    "        if not re.search(pattern, filename):\n",
+    "            continue\n",
+    "            \n",
+    "        new_filename = filename\n",
+    "\n",
+    "        if new_pattern is not None:\n",
+    "            new_filename = re.sub(patern, new_pattern, new_filename)\n",
+    "\n",
+    "        for old, new in sample_names.items():\n",
+    "            new_filename = new_filename.replace(old, new)\n",
+    "\n",
+    "        if filename == new_filename:\n",
+    "            continue\n",
+    "\n",
+    "        new_filepath = os.path.join(dir, new_filename)\n",
+    "\n",
+    "        if to_replace:\n",
+    "            os.rename(filepath, new_filepath)\n",
+    "        else: \n",
+    "            with open(filepath, 'rb') as f1, open(new_filepath, 'wb') as f2:\n",
+    "                f2.write(f1.read())"
    ]
   }
  ],
